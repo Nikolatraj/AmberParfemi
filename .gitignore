@@ -1,0 +1,15 @@
+# Root-level. Each app also has its own .gitignore.
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Env files (app-level .env are ignored by their own .gitignore)
+.env
+.env.local
+
+# Local Claude Code settings
+.claude/settings.local.json

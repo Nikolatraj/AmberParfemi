@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/* Lenis drives smooth scrolling in JS; native scroll-behavior would fight it. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Force the left-to-right heading wipe (<WipeIn>) to show the text whole.
+     `!important` is what lets this beat the component's inline style. */
+  [data-wipe] {
+    clip-path: none !important;
+    transition: none !important;
+  }
+}
+
+:root {
+  --background: #FDFCFB;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-amber: #B06A2C; /* signature resin accent */
+  --color-amber-deep: #8A4E1C;
+  --color-muted: #8A7F72;
+  --font-sans: var(--font-neue-montreal);
+  --font-display: var(--font-neue-montreal);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+}
+
+/* Element defaults, deliberately inside @layer base. Unlayered rules outrank
+   every layered Tailwind utility, so an unlayered `h1 { font-size: 60px }`
+   silently beat `text-3xl` on every h1 in the app — including Hero's
+   responsive sizes, which rendered 60px on phones. In `base` these are what
+   they should be: defaults for an h1 that sets no size of its own, which any
+   font-size or leading utility overrides.
+
+   The :focus-visible rules below stay unlayered on purpose — see their note. */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), sans-serif;
+  }
+
+  h1 {
+    font-size: 60px;
+    line-height: 1.05;
+  }
+}
+
+/* Brand focus ring — the keyboard-navigation affordance on links and buttons.
+   Kept unlayered so it outranks Tailwind's layered utilities. */
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+}
+
+/* Form controls carry their own focus styling (border/underline colour change),
+   so the amber box just fights their design — and it shows on plain mouse click,
+   not only keyboard. Drop it for them; buttons and links keep the ring above. */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+}
